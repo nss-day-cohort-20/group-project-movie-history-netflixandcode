@@ -1,6 +1,8 @@
 # Movie History
 
-You will be split up into teams of three, and your team will build a new application to keep track of movies that you have seen, and want to see, with your own ratings based on [OMDb API](http://omdbapi.com/).
+You will be split up into teams of three, and your team will build a new application to keep track of movies that you have seen, and want to see, with your own ratings.
+* https://www.themoviedb.org
+* Request an api key
 
 ## Requirements
 1. Must have the ability to register a user in Firebase
@@ -17,6 +19,7 @@ You will be split up into teams of three, and your team will build a new applica
 1. You must be using an automation tool to automate JavaScript linting
 1. You must be using an automation tool to automate SASS compilation
 1. For the layout, we suggest Bootstrap, but if you want to stretch your legs, you can try [Materialize](http://materializecss.com/).
+1. Use of project tickets and features
 
 ## Mockup
 
