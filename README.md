@@ -13,7 +13,8 @@ You will be split up into teams of three, and your team will build a new applica
 1. Each movie must have the following properties
    1. Movie name
    1. Year released
-   1. An array of major actors
+   1. List of major actors
+   1. Movie poster, if available
    1. An integer rating of 1-5
    1. A boolean value that, if true, means that you have watched the movie
 1. You must be using an automation tool to automate JavaScript linting
