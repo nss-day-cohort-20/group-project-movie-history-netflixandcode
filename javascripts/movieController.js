@@ -2,6 +2,15 @@
 
 let $ = require('jquery');
 let api = require('./api-getter.js');
+// let $container = $('.container');
+// let templates = require('./template-builder');
+
+// function buildMovieObj() {
+//     let movieObj = {
+//         title: $("#form--title").val()
+//     };
+//     return movieObj;
+// }
 
 module.exports.activateEL = () => {
     $('#searchButton').click(function() {
@@ -15,8 +24,11 @@ module.exports.activateEL = () => {
             type: 'GET',
             url: searchURL,
             contentType: 'application/json'
-        }).done((data) => {
-            console.log(data);
+        }).done( (movieData) => {
+            console.log(movieData);
+            // let movieList = templates.makeMovieList(movieData);
+            // let movieForm = templates.buildMovieForm();
+            // $container.html(movieData);
         });
     });
     //show watched
