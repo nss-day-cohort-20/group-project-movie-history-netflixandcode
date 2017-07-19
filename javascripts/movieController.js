@@ -2,7 +2,7 @@
 
 let $ = require('jquery');
 let api = require('./api-getter.js');
-let showcaseMovies = require('./showcaseMovies');
+let showcaseMovies = require('./showcaseMovies.js');
 
 module.exports.activateEL = () => {
     $('#searchButton').click(function() {
@@ -18,10 +18,12 @@ module.exports.activateEL = () => {
             url: searchURL,
             contentType: 'application/json'
         }).done((data) => {
-            // console.log(data);
-            let movieData = data;
-            console.log("movie data", movieData);
+            console.log("cats");
+            let temp = data.results;
+            let movieData = temp.slice(0,9);
             showcaseMovies.movieObjBuilder(movieData);
+            console.log("movie data", movieData);
+
             // resolve(data);
             });
         });
