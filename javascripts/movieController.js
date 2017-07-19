@@ -1,34 +1,25 @@
 'use strict';
 
 let $ = require('jquery');
-let api = require('./api-getter.js');
 let showcaseMovies = require('./showcaseMovies.js');
+let movieFactory = require('./movieFactory.js');
 
 module.exports.activateEL = () => {
     $('#searchButton').click(function() {
-        // return new Promise( (resolve, reject) => {
-        console.log("clicked");
-        var input = $('#movie').val();
-        let apiCred = api.apiGet();
-        apiCred.movieName = encodeURI(input);
-        let searchURL = apiCred.url + apiCred.mode + apiCred.movieName + apiCred.key;
-        console.log("searchUrl", searchURL);
-        $.ajax({
-            type: 'GET',
-            url: searchURL,
-            contentType: 'application/json'
-        }).done((data) => {
-            console.log("cats");
-            let temp = data.results;
-            let movieData = temp.slice(0,9);
-            showcaseMovies.movieObjBuilder(movieData);
-            console.log("movie data", movieData);
+        let p1 = movieFactory.getMovies();
+        // let p2 = movieFactory.getActors();
 
-            // resolve(data);
-            });
+        Promise.all([p1]).then(movieData => {
+            console.log("promise all", movieData);
+            showcaseMovies.movieObjBuilder(movieData);
         });
-    // });
+        
+
+    });
+
+
 };
+
 
 
       
