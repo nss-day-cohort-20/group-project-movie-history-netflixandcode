@@ -8,24 +8,19 @@ let $ = require('jquery');
 // let container = document.getElementById("container");
 
 // let movie = [];
+// moviedata[i].cast = actordata[i].cast
 
-module.exports.movieObjBuilder = (movieData) => {
-	// movieData = {};
-	console.log("moviedata", movieData);
+module.exports.movieObjBuilder = (movieData, actors) => {
+	// finalMovieData = [];
+	console.log("movie obj actors", actors);
+	// console.log("moviedata", movieData);
 	for (let i = 0; i < movieData.length; i++) {
-		// movie.id = movieData[i].id;
-		// movie.title = movieData[i].title;
-		// movie.year = movieData[i].release_date;
-		// movie.image = movieData[i].poster_path;
-		// movie.rating = 0;
-		// movie.watched = false;
-		// movie.actors = null;
-		// console.log("its working", movie);
-		// $container.innerHtml += `<div>Title: ${movieData[i].title}</div>`;
+		movieData[i].rating = 0;
+		movieData[i].watched = false;
+		movieData[i].cast = actors.name;
 	}
+	console.log("did it work?", movieData);
 	$("#container").html(movieTemp.makeMovieList(movieData));
-	// moviesToDom();
-// console.log("movies?", movie);
 }; 
 
 
@@ -37,3 +32,15 @@ module.exports.movieObjBuilder = (movieData) => {
 
 		// $("#container").append(movieTemp(movie));
 
+
+
+
+		// movie.id = movieData[i].id;
+		// movie.title = movieData[i].title;
+		// movie.year = movieData[i].release_date;
+		// movie.image = movieData[i].poster_path;
+		// movie.rating = 0;
+		// movie.watched = false;
+		// movie.actors = null;
+		// console.log("its working", movie);
+		// $container.innerHtml += `<div>Title: ${movieData[i].title}</div>`;
