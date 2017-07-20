@@ -1,6 +1,9 @@
 <div>
 	{{#each movies}}
 		<h3>{{title}}</h3>
+		{{#each cast}}
+		<p>{{name}}</p>
+		{{/each}}
 		<a class="waves-effect waves-light btn">button</a> 
 	{{/each}}
 </div>

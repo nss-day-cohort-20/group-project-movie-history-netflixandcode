@@ -12,12 +12,16 @@ let $ = require('jquery');
 
 module.exports.movieObjBuilder = (movieData, actors) => {
 	// finalMovieData = [];
+	// let test = actors.filter(function(obj) {
+	// 	console.log("test", )
+	// })
+	
 	console.log("movie obj actors", actors);
 	// console.log("moviedata", movieData);
 	for (let i = 0; i < movieData.length; i++) {
 		movieData[i].rating = 0;
 		movieData[i].watched = false;
-		movieData[i].cast = actors.name;
+		movieData[i].cast = actors[i];
 	}
 	console.log("did it work?", movieData);
 	$("#container").html(movieTemp.makeMovieList(movieData));
