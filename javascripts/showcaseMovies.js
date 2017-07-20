@@ -21,5 +21,7 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 			movieData[i].poster_path = (`https://image.tmdb.org/t/p/w500` + movieData[i].poster_path);
 		}
 	}
+	$("#container").append(movieTemp.makeMovieList(movieData));
+
 };
 
