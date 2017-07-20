@@ -20,4 +20,6 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 		} else {
 			movieData[i].poster_path = (`https://image.tmdb.org/t/p/w500` + movieData[i].poster_path);
 		}
+	}
+};
 
