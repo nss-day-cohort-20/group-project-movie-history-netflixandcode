@@ -6,11 +6,20 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	<input id="movie" type="text" /><button id="searchButton">Search</button>
+	<header class="search">
+		<span class="searchBar">
+			<button id="searchButton">Search</button /><input id="movie" type="text">
+		</span>
+	</header>
 	<div id="container">
 	</div>
-
+	<span>
+		<button class="filter" id="untracked">Show Untracked</button>
+		<button class="filter" id="unwatched">Show Unwatched</button>
+		<button class="filter" id="watched">Show Watched</button><!--rated movies-->
+		<button class="filter" id="favorites">Favorites</button><!--9 or 10 stars-->
+	</span>
 	<script src="lib/node_modules/materialize-css/dist/js/materialize.min.js"></script>
 	<script src="dist/app.js"></script>
-</body> 
+</body>
 </html>
