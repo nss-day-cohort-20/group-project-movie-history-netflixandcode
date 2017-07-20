@@ -18,6 +18,8 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 		movieData[i].rating = 0;
 		movieData[i].watched = false;
 		movieData[i].cast = actors.name;
+		actors.name = movieData[i].cast;
+		
 	}
 	console.log("did it work?", movieData);
 	$("#container").html(movieTemp.makeMovieList(movieData));
@@ -34,13 +36,3 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 
 
 
-
-		// movie.id = movieData[i].id;
-		// movie.title = movieData[i].title;
-		// movie.year = movieData[i].release_date;
-		// movie.image = movieData[i].poster_path;
-		// movie.rating = 0;
-		// movie.watched = false;
-		// movie.actors = null;
-		// console.log("its working", movie);
-		// $container.innerHtml += `<div>Title: ${movieData[i].title}</div>`;

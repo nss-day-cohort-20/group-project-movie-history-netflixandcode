@@ -64,3 +64,18 @@ function getActors(castUrl) {
         });
     });
 }
+
+/////////////////////////////////////////////////////
+
+// let fireBase = require('./firebaseConfig');
+
+// }
+
+// function getMyMovies(user, input) {
+// 	return new Promise(function(resolve, reject){
+// 		$.ajax({
+// 			url:
+// 		}).done(function(movieData){
+// 			resolve(movieData);
+// 		});
+// 	});
