@@ -25,19 +25,21 @@ module.exports.getMovies = () => {
             for (let i = 0; i < movieData.length; i++) {
                 movieArray.push(data.results[i]);
         }
-        showcase.movieObjBuilder(movieArray);
+        // showcase.movieObjBuilder(movieArray);
         console.log("moviearr", movieArray);
         // return new Promise( (resolve, reject) => {
         let promisesArr = castPromiseMaker();
         Promise.all(promisesArr)
         .then( (actors) => {
-            console.log("actors", actors[0].cast);
+            console.log("actors", actors);
+            showcase.movieObjBuilder(movieArray, actors);
             });
         resolve(data);
         });
     });
 };
 
+//builds the promisesArr, which will contain getActors with the correct castUrl in each one.
 function castPromiseMaker() {
     let promisesArr = [];
     for(let i = 0; i < movieArray.length; i++) {
@@ -55,7 +57,9 @@ function getActors(castUrl) {
             type: 'GET',
             url: castUrl
         }).done( (creditData) => {
-            resolve(creditData);
+            let temp = creditData.cast;
+            let castData = temp.slice(0,3);
+            resolve(castData);
         });
     });
 }

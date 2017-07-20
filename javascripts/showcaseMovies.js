@@ -1,39 +1,27 @@
 'use strict';
 
-// let templates = require('./template-builder'); 
 let Handlebars = require('hbsfy/runtime');
 let movieTemp = require('./template-builder'); 
 let $ = require('jquery');
-// let $container = $('#container');
-// let container = document.getElementById("container");
+let altPoster = '../imgs/noposter.png';
 
-// let movie = [];
 
-module.exports.movieObjBuilder = (movieData) => {
-	// movieData = {};
+module.exports.movieObjBuilder = (movieData, actors) => {
 	console.log("moviedata", movieData);
 	for (let i = 0; i < movieData.length; i++) {
-		// movie.id = movieData[i].id;
-		// movie.title = movieData[i].title;
-		// movie.year = movieData[i].release_date;
-		// movie.image = movieData[i].poster_path;
-		// movie.rating = 0;
-		// movie.watched = false;
-		// movie.actors = null;
-		// console.log("its working", movie);
-		// $container.innerHtml += `<div>Title: ${movieData[i].title}</div>`;
+
+
+		movieData[i].rating = 0;
+		// movieData[i].tracked = false;
+		movieData[i].cast = actors[i];
+
+		if (movieData[i].poster_path === null) {
+			movieData[i].poster_path = altPoster;
+		} else {
+			movieData[i].poster_path = (`https://image.tmdb.org/t/p/w500` + movieData[i].poster_path);
+		}
 	}
-	$("#container").html(movieTemp.makeMovieList(movieData));
-	// moviesToDom();
-// console.log("movies?", movie);
-}; 
+	$("#container").append(movieTemp.makeMovieList(movieData));
 
-
-
-
-
-		// let movieList = templates.makeMovieList(movie[i]);
-		// $container.html(movieList);
-
-		// $("#container").append(movieTemp(movie));
+};
 

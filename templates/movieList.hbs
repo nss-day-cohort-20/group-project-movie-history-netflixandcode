@@ -1,6 +1,16 @@
 <div>
 	{{#each movies}}
-		<h3>{{title}}</h3>
-		<a class="addTracked" class="waves-effect waves-light btn">Track Movie</a>
+
+
+		<h3>{{title}}</h3><br>
+		<img src="{{poster_path}}" alt="{{title}}"style="width:20%;height:20%;">
+		{{#each cast}}
+		<p>{{name}}</p>
+		{{/each}}
+		<ul>
+			<li>{{release_date}}</li>
+			<li>{{rating}}</li>
+		</ul>
+
 	{{/each}}
 </div>
