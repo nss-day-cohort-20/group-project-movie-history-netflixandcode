@@ -18,13 +18,12 @@ module.exports.getMovies = () => {
             type: 'GET',
             url: searchURL,
             contentType: 'application/json'
-         
-    }).done( (data) => {
-        console.log("data", data);
-        let temp = data.results;
-        let movieData = temp.slice(0,9);
-        for (let i = 0; i < movieData.length; i++) {
-            movieArray.push(data.results[i]);
+        }).done( (data) => {
+            console.log("data", data);
+            let temp = data.results;
+            let movieData = temp.slice(0,9);
+            for (let i = 0; i < movieData.length; i++) {
+                movieArray.push(data.results[i]);
         }
         // showcase.movieObjBuilder(movieArray);
         console.log("moviearr", movieArray);
