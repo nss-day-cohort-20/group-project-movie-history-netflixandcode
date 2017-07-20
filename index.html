@@ -3,10 +3,19 @@
 <head>
 	<title>Movie History</title>
 	<link rel="stylesheet" href="lib/node_modules/materialize-css/dist/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	<input id="movie" type="text" /><button id="searchButton">Search</button>
+	<input id="movie" type="text" /><button id="auth-btn" type="button">Log In</button>
+	<div class="row">
+		<div class="center">
+		<a class="waves-effect waves-light btn untracked" id="searchButton"><i class="material-icons right">cloud</i>Show New Movies</a>
+		<a class="waves-effect waves-light btn unwatched"><i class="material-icons right">radio_button_unchecked</i>Show Unwatched</a>
+		<a class="waves-effect waves-light btn watched"><i class="material-icons right">radio_button_checked</i>Show Watched</a>
+		<a class="waves-effect waves-light btn favorites"><i class="material-icons right">star</i>Show Favsorites</a>
+		</div>
+	</div>
 	<div id="container">
 	</div>
 
