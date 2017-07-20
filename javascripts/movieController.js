@@ -2,7 +2,19 @@
 
 let $ = require('jquery');
 let api = require('./api-getter.js');
+<<<<<<< HEAD
+// let $container = $('.container');
+// let templates = require('./template-builder');
+
+// function buildMovieObj() {
+//     let movieObj = {
+//         title: $("#form--title").val()
+//     };
+//     return movieObj;
+// }
+=======
 let showcaseMovies = require('./showcaseMovies.js');
+>>>>>>> master
 
 module.exports.activateEL = () => {
     $('#searchButton').click(function() {
@@ -17,6 +29,13 @@ module.exports.activateEL = () => {
             type: 'GET',
             url: searchURL,
             contentType: 'application/json'
+<<<<<<< HEAD
+        }).done( (movieData) => {
+            console.log(movieData);
+            // let movieList = templates.makeMovieList(movieData);
+            // let movieForm = templates.buildMovieForm();
+            // $container.html(movieData);
+=======
         }).done((data) => {
             console.log("cats");
             let temp = data.results;
@@ -26,6 +45,7 @@ module.exports.activateEL = () => {
 
             // resolve(data);
             });
+>>>>>>> master
         });
     // });
 };
