@@ -4,11 +4,12 @@ let $ = require('jquery');
 let api = require('./api-getter');
 let showcase = require('./showcaseMovies');
 
-let movieArray = [];
 let apiCred = api.apiGet();
 let castApi = api.apiCredits();
 
+//this gets all the data. 
 module.exports.getMovies = () => {
+    let movieArray = [];
     return new Promise( (resolve, reject) => {
         let input = $('#movie').val();
         apiCred.movieName = encodeURI(input);
@@ -18,18 +19,18 @@ module.exports.getMovies = () => {
             type: 'GET',
             url: searchURL,
             contentType: 'application/json'
-        }).done( (data) => {
-            console.log("data", data);
-            let temp = data.results;
-            let movieData = temp.slice(0,9);
-            for (let i = 0; i < movieData.length; i++) {
-                movieArray.push(data.results[i]);
+         
+    }).done( (data) => {
+        console.log("data", data);
+        let temp = data.results;
+        //limit's the amount of data returned to 12 movies
+        let movieData = temp.slice(0,12);
+        for (let i = 0; i < movieData.length; i++) {
+            movieArray.push(data.results[i]);
         }
-        // showcase.movieObjBuilder(movieArray);
         // console.log("moviearr", movieArray);
-        // return new Promise( (resolve, reject) => {
-
-        let promisesArr = castPromiseMaker();
+        //call helper functions to append cast, passing in data
+        let promisesArr = castPromiseMaker(movieArray);
         Promise.all(promisesArr)
         .then( (actors) => {
             // console.log("actors", actors);
@@ -41,7 +42,7 @@ module.exports.getMovies = () => {
 };
 
 //builds the promisesArr, which will contain getActors with the correct castUrl in each one.
-function castPromiseMaker() {
+function castPromiseMaker(movieArray) {
     let promisesArr = [];
     for(let i = 0; i < movieArray.length; i++) {
         let id = movieArray[i].id;
@@ -59,6 +60,7 @@ function getActors(castUrl) {
             url: castUrl
         }).done( (creditData) => {
             let temp = creditData.cast;
+            //limit lead actors to 3
             let castData = temp.slice(0,3);
             resolve(castData);
         });
