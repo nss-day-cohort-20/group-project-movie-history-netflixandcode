@@ -1,19 +1,19 @@
 'use strict';
 
-// let templates = require('./template-builder'); 
+ 
 let Handlebars = require('hbsfy/runtime');
 let movieTemp = require('./template-builder'); 
 let $ = require('jquery');
 let altPoster = '../imgs/noposter.jpg';
+
 //To allow users to log in (Dustin remember this)
 let firebase = require('./firebaseConfig.js');
-// let $container = $('#container');
-// let container = document.getElementById("container");
 
-// let movie = [];
-// moviedata[i].cast = actordata[i].cast
+
+
 
 module.exports.movieObjBuilder = (movieData, actors) => {
+
 	let currentUser = firebase.auth().currentUser.uid;
 	console.log("current User", currentUser);
 	// finalMovieData = [];
@@ -24,10 +24,11 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 		movieData[i].watched = false;
 		movieData[i].cast = actors[i];
 		movieData[i].user = currentUser;		
+
 		if (movieData[i].poster_path === null) {
 			movieData[i].poster_path = altPoster;
 		} else {
-			movieData[i].poster_path = (`https://image.tmdb.org/t/p/w500` + movieData[i].poster_path);
+			movieData[i].poster_path = (`https://image.tmdb.org/t/p/w342` + movieData[i].poster_path);
 		}
 	}
 
@@ -36,23 +37,3 @@ module.exports.movieObjBuilder = (movieData, actors) => {
 }; 
 
 
-
-
-
-		// let movieList = templates.makeMovieList(movie[i]);
-		// $container.html(movieList);
-
-		// $("#container").append(movieTemp(movie));
-
-
-
-
-		// movie.id = movieData[i].id;
-		// movie.title = movieData[i].title;
-		// movie.year = movieData[i].release_date;
-		// movie.image = movieData[i].poster_path;
-		// movie.rating = 0;
-		// movie.watched = false;
-		// movie.actors = null;
-		// console.log("its working", movie);
-		// $container.innerHtml += `<div>Title: ${movieData[i].title}</div>`;
