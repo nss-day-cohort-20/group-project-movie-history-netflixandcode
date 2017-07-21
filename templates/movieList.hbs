@@ -1,15 +1,17 @@
 <div class="row">
 {{#each movies}}
-	<div class="col s4">
-		<div class="card">
+	<div class="col s3">
+		<div class="card hoverable">
 			<div class="card-image">
 				<img src="{{poster_path}}" alt="{{title}}">
 				<span class="card-title">{{title}}</span>
 			</div>
 			<div class="card-content">
+				{{!-- <h5>{{title}}</h5> --}}
 				{{#each cast}}
 					<p>{{name}}</p>
 				{{/each}}
+				{{release_date}}
 			</div>
 			<div class="card-action addTracked">
 				<a href="#">Add to Watchlist</a>
