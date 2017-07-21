@@ -23,7 +23,7 @@ module.exports.getMovies = () => {
     }).done( (data) => {
         console.log("data", data);
         let temp = data.results;
-        //limit's the amount of data returned to 9 movies
+        //limit's the amount of data returned to 12 movies
         let movieData = temp.slice(0,12);
         for (let i = 0; i < movieData.length; i++) {
             movieArray.push(data.results[i]);
