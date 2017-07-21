@@ -5,6 +5,8 @@ let Handlebars = require('hbsfy/runtime');
 let movieTemp = require('./template-builder'); 
 let $ = require('jquery');
 let altPoster = '../imgs/noposter.jpg';
+//To allow users to log in (Dustin remember this)
+let firebase = require('./firebaseConfig.js');
 // let $container = $('#container');
 // let container = document.getElementById("container");
 
@@ -12,13 +14,16 @@ let altPoster = '../imgs/noposter.jpg';
 // moviedata[i].cast = actordata[i].cast
 
 module.exports.movieObjBuilder = (movieData, actors) => {
+	let currentUser = firebase.auth().currentUser.uid;
+	console.log("current User", currentUser);
 	// finalMovieData = [];
 	// console.log("movie obj actors", actors);
 	// console.log("moviedata", movieData);
-	for (let i = 0; i < movieData.length; i++) {		
+	for (let i = 0; i < movieData.length; i++) {
 		movieData[i].rating = 0;
 		movieData[i].watched = false;
 		movieData[i].cast = actors[i];
+		movieData[i].user = currentUser;		
 		if (movieData[i].poster_path === null) {
 			movieData[i].poster_path = altPoster;
 		} else {
