@@ -6,7 +6,7 @@
 				<img src="{{poster_path}}" alt="{{title}}">
 				<span class="card-title">{{title}}</span>
 			</div>
-			<div class="card-content">
+			<div id="{{id}}"class="card-content">
 				{{!-- <h5>{{title}}</h5> --}}
 				{{#each cast}}
 					<p>{{name}}</p>
@@ -14,7 +14,7 @@
 				{{release_date}}
 			</div>
 			<div class="card-action addTracked">
-				<a href="#">Add to Watchlist</a>
+				<button class="add-to-watchlist-btn">Add to Watchlist</button>
 			</div>
 		</div>
 	</div>

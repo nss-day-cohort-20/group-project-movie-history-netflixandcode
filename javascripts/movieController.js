@@ -3,7 +3,7 @@
 
 let $ = require('jquery');
 let api = require('./api-getter.js');
-let showcaseMovies = require('./showcaseMovies.js'); 
+let showcaseMovies = require('./showcaseMovies.js');
 let movieFactory = require('./movieFactory.js');
 let $container = $('.container');
 let templates = require('./template-builder');
@@ -18,7 +18,7 @@ let movieSearch = $('#movie');
 // }
 
 
-module.exports.activateEL = () => {    
+module.exports.activateEL = () => {
     // $('#searchButton').click(movieFactory.getMovies);
         searchBtn.click(movieFactory.getMovies);
     $('.untracked').click(() =>{
@@ -64,7 +64,19 @@ movieSearch.keypress((event) =>{
    }
 });
 
-
+module.exports.getMovieIds = () => {
+  return new Promise( function(resolve, reject) {
+    let moviesIds;
+    movieFactory.getMovies()
+    .then( (movies) => {
+      moviesIds = movies.map(function(movie) {
+        return movie.id;
+      });
+      console.log("movie Ids", moviesIds);
+      resolve(moviesIds);
+      });
+  });
+};
 
 function clearDOM(){
     $('#container').empty();

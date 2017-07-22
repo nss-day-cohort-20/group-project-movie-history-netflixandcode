@@ -1,7 +1,7 @@
 'use strict';
 
 let $ = require('jquery');
-let firebase = require('./firebase-config.js');
+let firebase = require('./firebaseConfig.js');
 let fbUrl = 'https://moviehistoryteambearator.firebaseio.com/';
 
 let fbFactory = {};
@@ -36,14 +36,13 @@ fbFactory.addMovieToFb = (movieId) => { //get movieId from the card ... remember
 
 fbFactory.getUserMoviesForMatching = () => {
 	let currentUser = firebase.auth().currentUser.uid;
-
 	return new Promise ( (resolve, reject) => {
 		$.ajax({
 			url: `${fbUrl}/movies.json?orderBy="uid"&equalTo="${currentUser}`
 		}).done( (data) => {
 			resolve(data);
 		});
-		
+
 	});
 };
 
