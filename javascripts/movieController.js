@@ -7,7 +7,7 @@ let showcaseMovies = require('./showcaseMovies.js');
 let movieFactory = require('./movieFactory.js');
 let $container = $('.container');
 let templates = require('./template-builder');
-
+let fbFactory = require('./fbMovieFactory.js');
 let searchBtn = $('#searchButton');
 let movieSearch = $('#movie');
 
@@ -26,7 +26,11 @@ module.exports.getMovieIds = () => {
 };
 
 module.exports.filterCheck = () => {
-  if ($('#movie').hasClass('utr') === true){
+  fbFactory.getUserMoviesForMatching()
+  .then( (userMovies) => {
+    console.log("usser movie data", userMovies);
+  });
+  if ($('#movie').hasClass('utr')){
 
            // TODO: run specific filtered searches here.
   } else if ($('#movie').hasClass('uwt') === true){

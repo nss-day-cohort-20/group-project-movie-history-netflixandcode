@@ -47,5 +47,6 @@ $('#movie').keypress( (event) => {
 	if (event.keyCode === 13) {
 		movieCtr.clearDOM();
 		movieFactory.getMovies();
+		movieCtr.filterCheck();
 	}
 });
