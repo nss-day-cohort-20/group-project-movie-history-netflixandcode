@@ -1,7 +1,7 @@
 'use strict';
 
 let $ = require('jquery');
-let firebase = require('./firebase-config.js');
+let firebase = require('./firebaseConfig.js');
 let fbUrl = 'https://moviehistoryteambearator.firebaseio.com/';
 
 let fbFactory = {};
@@ -19,6 +19,7 @@ fbFactory.addMovieToFb = (movieId) => { //get movieId from the card ... remember
 			movieObject.uid = currentUser;
 			movieObject.id = movieId;
 			movieObject.rating = 0; //if it's 0, not yet watched; if 1-10, user has watched... if >=9 then it's a favorite
+			movieObject.watched = false;
 			$.ajax({
 				url: `${fbUrl}/movies.json`,
 				type: "POST",
@@ -36,14 +37,13 @@ fbFactory.addMovieToFb = (movieId) => { //get movieId from the card ... remember
 
 fbFactory.getUserMoviesForMatching = () => {
 	let currentUser = firebase.auth().currentUser.uid;
-
 	return new Promise ( (resolve, reject) => {
 		$.ajax({
 			url: `${fbUrl}/movies.json?orderBy="uid"&equalTo="${currentUser}`
 		}).done( (data) => {
 			resolve(data);
 		});
-		
+
 	});
 };
 
