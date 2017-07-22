@@ -74,8 +74,8 @@ module.exports.getMovieIds = () => {
       });
       console.log("movie Ids", moviesIds);
       resolve(moviesIds);
-    });
       });
+  });
 };
 
 function clearDOM(){
