@@ -12,7 +12,6 @@ let firebase = require('./firebaseConfig.js');
 module.exports.movieObjBuilder = (movieData, actors) => {
 	for (let i = 0; i < movieData.length; i++) {
 		movieData[i].rating = 0;
-		movieData[i].watched = false;
 		// console.log(movieData);
 		movieData[i].cast = actors[i];
 		if (!movieData[i].poster_path) {

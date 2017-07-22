@@ -19,7 +19,6 @@ fbFactory.addMovieToFb = (movieId) => { //get movieId from the card ... remember
 			movieObject.uid = currentUser;
 			movieObject.id = movieId;
 			movieObject.rating = 0; //if it's 0, not yet watched; if 1-10, user has watched... if >=9 then it's a favorite
-			movieObject.watched = false;
 			$.ajax({
 				url: `${fbUrl}/movies.json`,
 				type: "POST",
