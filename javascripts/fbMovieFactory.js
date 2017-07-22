@@ -6,8 +6,6 @@ let fbUrl = 'https://moviehistoryteambearator.firebaseio.com/';
 
 let fbFactory = {};
 
-
-
 //this needs to be called in an event listener that looks for the buttons with class ".addTracked"
 //this will be a document.on(click) thing ... reach for the parent parent just the movie in that card. Oh and make it disappear from untracked
 
