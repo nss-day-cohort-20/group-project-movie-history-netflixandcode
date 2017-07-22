@@ -21,12 +21,12 @@ $("#auth-btn").click( () => {
 $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	console.log('watch is clicked');
 	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
-	movieCtr.getMovieIds()
-	.then( function(movieIDs) {
-		fbFactory.addMovieToFb(thisBtnId);
-		//will use movieIDs to compare with thisBtnId -jason
-		console.log("movie Ids on main", movieIDs," thisID?", thisBtnId);
+	fbFactory.addMovieToFb(thisBtnId)
+	.then( function(data) {
+		console.log("added movie data", data);
 	});
+		//will use movieIDs to compare with thisBtnId -jason
+	console.log("thisID?", thisBtnId);
 });
 
 $(document).on("click", '.filter', (event) => {

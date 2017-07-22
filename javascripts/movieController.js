@@ -11,24 +11,33 @@ let fbFactory = require('./fbMovieFactory.js');
 let searchBtn = $('#searchButton');
 let movieSearch = $('#movie');
 
-module.exports.getMovieIds = () => {
-  return new Promise( function(resolve, reject) {
-    let moviesIds;
-    movieFactory.getMovies()
-    .then( (movies) => {
-      moviesIds = movies.map(function(movie) {
-        return movie.id;
-      });
-      console.log("movie Ids", moviesIds);
-      resolve(moviesIds);
-      });
+// module.exports.getAPIMovieIds = () => {
+//   return new Promise( function(resolve, reject) {
+//     let moviesIds;
+//     movieFactory.getMovies()
+//     .then( (movies) => {
+//       moviesIds = movies.map(function(movie) {
+//         return movie.id;
+//       });
+//       console.log("movie Ids", moviesIds);
+//       resolve(moviesIds);
+//       });
+//   });
+// };
+
+//takes an array of movie objects
+function getMovieIds(movies) {
+  let movieIds = movies.map(function(movie) {
+    return movie.id;
   });
-};
+  return movieIds;
+}
 
 module.exports.filterCheck = () => {
   fbFactory.getUserMoviesForMatching()
   .then( (userMovies) => {
-    console.log("usser movie data", userMovies);
+    let userMovieIds = getMovieIds(userMovies);
+    console.log("user movie Ids", userMovieIds);
   });
   if ($('#movie').hasClass('utr')){
 
