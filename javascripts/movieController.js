@@ -23,17 +23,32 @@ movieController.getMovieIds = (movies) => {
   });
 };
 
-//TODO: create the logic for the rest of the filters.
-//finds the user's tracked but not rated movies.
-function unwatchedFilter(usersMoviesIds) {
-  return new Promise ( (resolve, reject) => {
+function hideByIds(idsOfMoviesToHide) {
+  for (var i = 0; i < idsOfMoviesToHide.length; i++) {
+    if ($(`#${idsOfMoviesToHide[i]}`).hasClass('card-content')) {
+      console.log("ID Hider => Element hidden:", $(`#${idsOfMoviesToHide[i]}`));
+      $(`#${idsOfMoviesToHide[i]}`).closest('.col').addClass('isHidden');
+    }
+  }
+}
 
+//TODO: create the logic for the rest of the filters.
+//looks at the user's watched movies (rating > 0), hides them from search results.
+function unwatchedFilter(userMovies) {
+  return new Promise ( (resolve, reject) => {
+    let watchedMovies = userMovies.filter( (movie) => {
+      return movie.rating > 0;
+    });
+    movieController.getMovieIds(watchedMovies)
+    .then( (idsOfWatchedMovies) => {
+      hideByIds(idsOfWatchedMovies);
+    });
   resolve(console.log("unwatched filter fired"));
   });
 }
 
 // matches the IDs of the user's movies with ids in the API, if rating above 0 => watched.
-function watchedFilter(usersMoviesIds) {
+function watchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
 
   resolve(console.log("watched filter fired"));
@@ -41,23 +56,28 @@ function watchedFilter(usersMoviesIds) {
 }
 
 //only display the user's movies if their rating >= 9.
-function favoritesFilter(usersMoviesIds) {
+function favoritesFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
 
   resolve(console.log("favorites filter fired"));
   });
 }
 
-// matches the IDs of the user's movies with the movies in the DOM. if matched, remove it.
-function untrackedFilter(userMoviesIds) {
+// matches the IDs of the user's movies with the movies in the DOM. if matched, hide it.
+function untrackedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
     console.log('untracked filter fired');
-    for (var i = 0; i < userMoviesIds.length; i++) {
-      if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
-      console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
-        $(`#${userMoviesIds[i]}`).closest('.col').remove();
-      }
-    }
+    movieController.getMovieIds(userMovies)
+    .then( (userMoviesIds) => {
+      console.log("user movies ids", userMoviesIds);
+      hideByIds(userMoviesIds);
+      // for (var i = 0; i < userMoviesIds.length; i++) {
+      //   if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
+      //   console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
+      //     $(`#${userMoviesIds[i]}`).closest('.col').addClass('isHidden');
+      //   }
+      // }
+    });
     resolve();
   });
 }
@@ -66,19 +86,17 @@ function untrackedFilter(userMoviesIds) {
 //passes the user's movies ids into a filter function.
 movieController.filterCheck = () => {
   return new Promise (function(resolve, reject) {
+    $('.isHidden').removeClass("isHidden");
     fbFactory.getUserMoviesForMatching()
       .then( (userMovies) => {
-        return movieController.getMovieIds(userMovies);
-      })
-      .then( (userMovieIds) => {
         if ($('#movie').hasClass('utr')) {
-          return untrackedFilter(userMovieIds);
+          return untrackedFilter(userMovies);
         } else if ($('#movie').hasClass('uwt')) {
-          return unwatchedFilter(userMovieIds);
+          return unwatchedFilter(userMovies);
         } else if ($('#movie').hasClass('wtc')) {
-          return watchedFilter(userMovieIds);
+          return watchedFilter(userMovies);
         } else if ($('#movie').hasClass('fav')) {
-          return favoritesFilter(userMovieIds);
+          return favoritesFilter(userMovies);
         } else {
           console.log("error finding class");
         }
