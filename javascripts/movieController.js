@@ -49,15 +49,19 @@ function favoritesFilter(usersMoviesIds) {
 }
 
 // matches the IDs of the user's movies with the movies in the DOM. if matched, remove it.
-function untrackedFilter(userMoviesIds) {
+function untrackedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
     console.log('untracked filter fired');
-    for (var i = 0; i < userMoviesIds.length; i++) {
-      if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
-      console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
-        $(`#${userMoviesIds[i]}`).closest('.col').remove();
+    movieController.getMovieIds(userMovies)
+    .then( (userMoviesIds) => {
+      console.log("user movies ids", userMoviesIds);
+      for (var i = 0; i < userMoviesIds.length; i++) {
+        if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
+        console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
+          $(`#${userMoviesIds[i]}`).closest('.col').remove();
+        }
       }
-    }
+    });
     resolve();
   });
 }
@@ -68,17 +72,14 @@ movieController.filterCheck = () => {
   return new Promise (function(resolve, reject) {
     fbFactory.getUserMoviesForMatching()
       .then( (userMovies) => {
-        return movieController.getMovieIds(userMovies);
-      })
-      .then( (userMovieIds) => {
         if ($('#movie').hasClass('utr')) {
-          return untrackedFilter(userMovieIds);
+          return untrackedFilter(userMovies);
         } else if ($('#movie').hasClass('uwt')) {
-          return unwatchedFilter(userMovieIds);
+          return unwatchedFilter(userMovies);
         } else if ($('#movie').hasClass('wtc')) {
-          return watchedFilter(userMovieIds);
+          return watchedFilter(userMovies);
         } else if ($('#movie').hasClass('fav')) {
-          return favoritesFilter(userMovieIds);
+          return favoritesFilter(userMovies);
         } else {
           console.log("error finding class");
         }
