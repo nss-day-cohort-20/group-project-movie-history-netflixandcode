@@ -41,12 +41,23 @@ $(document).on("click", '.filter', (event) => {
 	} else if ($target.hasClass('favorites')) {
 		$('#movie').toggleClass('fav');
 	}
+	movieCtr.filterCheck()
+	.then( (data) => {
+
+	});
 });
 
 $('#movie').keypress( (event) => {
 	if (event.keyCode === 13) {
 		movieCtr.clearDOM();
-		movieFactory.getMovies();
-		movieCtr.filterCheck();
+		movieFactory.getMovies()
+		// .then( (data) => {
+		// return movieCtr.filterCheck();
+		// })
+		.then( (moredata) => {
+			console.log("got there", moredata);
+		});
+
+		// console.log("what is this", data);
 	}
 });

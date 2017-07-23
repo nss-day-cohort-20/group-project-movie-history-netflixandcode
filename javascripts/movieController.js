@@ -11,6 +11,8 @@ let fbFactory = require('./fbMovieFactory.js');
 let searchBtn = $('#searchButton');
 let movieSearch = $('#movie');
 
+let movieController = {};
+
 // module.exports.getAPIMovieIds = () => {
 //   return new Promise( function(resolve, reject) {
 //     let moviesIds;
@@ -26,36 +28,66 @@ let movieSearch = $('#movie');
 // };
 
 //takes an array of movie objects
-function getMovieIds(movies) {
-  let movieIds = movies.map(function(movie) {
-    return movie.id;
+movieController.getMovieIds = (movies) => {
+  return new Promise (function(resolve, reject) {
+    let movieIds = movies.map(function(movie) {
+      return movie.id;
+    });
+    resolve(movieIds);
   });
-  return movieIds;
+};
+
+function untrackedFilter(userMoviesIds) {
+  console.log(userMoviesIds);
+  return new Promise (function(resolve, reject) {
+    console.log('utr filter is working');
+    for (var i = 0; i < userMoviesIds.length; i++) {
+      if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
+      console.log("elements", $(`#${userMoviesIds[i]}`));
+        $(`#${userMoviesIds[i]}`).closest('.col').remove();
+      }
+
+    }
+    resolve("ok");
+  });
 }
 
-module.exports.filterCheck = () => {
+movieController.filterCheck = () => {
+  return new Promise (function(resolve, reject) {
+  // let userMovieIds;
   fbFactory.getUserMoviesForMatching()
-  .then( (userMovies) => {
-    let userMovieIds = getMovieIds(userMovies);
-    console.log("user movie Ids", userMovieIds);
+    .then( (userMovies) => {
+      return movieController.getMovieIds(userMovies);
+    })
+    .then( (userMovieIds) => {
+      if ($('#movie').hasClass('utr')) {
+        return untrackedFilter(userMovieIds);
+      }
+    })
+    .then( (element) => {
+      console.log(element);
+      resolve("done");
+    });
   });
-  if ($('#movie').hasClass('utr')){
+  // if ($('#movie').hasClass('utr')){
 
-           // TODO: run specific filtered searches here.
-  } else if ($('#movie').hasClass('uwt') === true){
-
-
-  } else if ($('#movie').hasClass('wtc') === true){
+  //          // TODO: run specific filtered searches here.
+  // } else if ($('#movie').hasClass('uwt') === true){
 
 
-  } else if ($('#movie').hasClass('fav') === true){
+  // } else if ($('#movie').hasClass('wtc') === true){
 
 
-  } else {
-           // alert('Error: Filter not toggled on');
-  }
+  // } else if ($('#movie').hasClass('fav') === true){
+
+
+  // } else {
+  //          // alert('Error: Filter not toggled on');
+  // }
 };
 
-module.exports.clearDOM = () => {
+movieController.clearDOM = () => {
     $('#container').empty();
 };
+
+module.exports = movieController;
