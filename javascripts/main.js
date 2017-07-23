@@ -7,9 +7,8 @@ let userFactory = require('./userFactory.js');
 let fbFactory = require('./fbMovieFactory.js');
 let movieFactory = require('./movieFactory.js');
 
-movieCtr.activateEL();
-
-$("#auth-btn").click( function() {
+//log in to google
+$("#auth-btn").click( () => {
 	userFactory.logInGoogle()
 	.then( (result) => {
 		let user = result.user.uid;
@@ -21,10 +20,40 @@ $("#auth-btn").click( function() {
 $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	console.log('watch is clicked');
 	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
-	movieCtr.getMovieIds()
-	.then( function(movieIDs) {
-		fbFactory.addMovieToFb(thisBtnId);
-		//will use movieIDs to compare with thisBtnId -jason
-		console.log("movie Ids on main", movieIDs," thisID?", thisBtnId);
+	fbFactory.addMovieToFb(thisBtnId)
+	.then( function(data) {
+		console.log("added movie data", data);
 	});
+	console.log("thisID", thisBtnId);
+});
+
+// clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
+// it has and executes the filter functionality.
+$(document).on("click", '.filter', (event) => {
+	let $target = $(event.target);
+	$('#movie').removeClass('utr uwt wtc fav');
+	if($target.hasClass('untracked') ) {
+		$('#movie').toggleClass('utr');
+	} else if ($target.hasClass('unwatched')) {
+		$('#movie').toggleClass('uwt');
+	} else if ($target.hasClass('watched')) {
+		$('#movie').toggleClass('wtc');
+	} else if ($target.hasClass('favorites')) {
+		$('#movie').toggleClass('fav');
+	}
+	movieCtr.filterCheck()
+	.then( (data) => {
+		console.log("filter", data);
+	});
+});
+
+// enter key clears DOM and inserts movie based on search query
+$('#movie').keypress( (event) => {
+	if (event.keyCode === 13) {
+		movieCtr.clearDOM();
+		movieFactory.getMovies()
+		.then( (moredata) => {
+			console.log("dom loaded", moredata);
+		});
+	}
 });

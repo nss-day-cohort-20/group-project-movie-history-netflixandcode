@@ -34,9 +34,9 @@ module.exports.getMovies = () => {
         .then( (actors) => {
             // console.log("actors", actors);
             showcase.movieObjBuilder(movieArray, actors);
+            resolve(movieData);
             });
         console.log("data", movieData);
-        resolve(movieData);
         });
     });
 };
