@@ -7,16 +7,33 @@ let userFactory = require('./userFactory.js');
 let fbFactory = require('./fbMovieFactory.js');
 let movieFactory = require('./movieFactory.js');
 let firebase = require('./firebaseConfig.js');
-// let currentUser = firebase.auth().currentUser.uid;
 
+
+//would also like to toggle a class to hide whichever of these buttons does not apply
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("User is signed in.");
+	$("#auth-btn").html("Log Out");
+	} else {
+		$("#auth-btn").html("Log In");
+
+	}
+});
 
 //log in to google
-$("#auth-btn").click( () => {
+$("#in-btn").click( () => {
+	console.log("log in clicked");
 	userFactory.logInGoogle()
 	.then( (result) => {
 		let user = result.user.uid;
 		console.log("userID", user);
 	});
+});
+
+//log out
+
+$("#out-btn").click( () => {
+	userFactory.logOut();
 });
 
 // adds movie to firebase on click of 'add to watchlist' button
@@ -50,32 +67,18 @@ $(document).on("click", '.filter', (event) => {
 	});
 });
 
-// function logInOnLoad() {
-// 	let currentUser = userFactory.logInGoogle.currentUser;
-// 	let user = firebase.auth().currentUser.uid;
-// 	console.log("current user", currentUser);
-// 	console.log("current user", user);
-// 	if (!currentUser) {
-// 		$("#auth-btn").html("Log In");
-// 	} else {
-// 		$("#auth-btn").html("Log Out");
-// 	}
-// }
-
-//maybe I need to pass in the current user somehow...?
-// logInOnLoad();
 
 // enter key clears DOM and inserts movie based on search query
 $('#movie').keypress( (event) => {
-	let currentUser = firebase.auth().currentUser.uid;
-	if (!currentUser) {
-		console.log("No user logged in");
-	}
-	 if (event.keyCode === 13) {
-		movieCtr.clearDOM();
-		movieFactory.getMovies()
-		.then( (moredata) => {
-			console.log("dom loaded", moredata);
-		});
+	let user = firebase.auth().currentUser;
+	if (!user) {
+		alert("Please log in to continue.");
+	} else if (event.keyCode === 13) {
+			movieCtr.clearDOM();
+			movieFactory.getMovies()
+			.then( (moredata) => {
+				console.log("dom loaded", moredata);
+			});
+	
 	}
 });
