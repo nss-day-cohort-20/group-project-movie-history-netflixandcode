@@ -7,8 +7,7 @@ let userFactory = require('./userFactory.js');
 let fbFactory = require('./fbMovieFactory.js');
 let movieFactory = require('./movieFactory.js');
 
-// movieCtr.activateEL();
-
+//log in to google
 $("#auth-btn").click( () => {
 	userFactory.logInGoogle()
 	.then( (result) => {
@@ -25,10 +24,11 @@ $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	.then( function(data) {
 		console.log("added movie data", data);
 	});
-		//will use movieIDs to compare with thisBtnId -jason
-	console.log("thisID?", thisBtnId);
+	console.log("thisID", thisBtnId);
 });
 
+// clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
+// it has and executes the filter functionality.
 $(document).on("click", '.filter', (event) => {
 	let $target = $(event.target);
 	$('#movie').removeClass('utr uwt wtc fav');
@@ -43,21 +43,17 @@ $(document).on("click", '.filter', (event) => {
 	}
 	movieCtr.filterCheck()
 	.then( (data) => {
-
+		console.log("filter", data);
 	});
 });
 
+// enter key clears DOM and inserts movie based on search query
 $('#movie').keypress( (event) => {
 	if (event.keyCode === 13) {
 		movieCtr.clearDOM();
 		movieFactory.getMovies()
-		// .then( (data) => {
-		// return movieCtr.filterCheck();
-		// })
 		.then( (moredata) => {
-			console.log("got there", moredata);
+			console.log("dom loaded", moredata);
 		});
-
-		// console.log("what is this", data);
 	}
 });

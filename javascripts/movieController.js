@@ -23,11 +23,12 @@ movieController.getMovieIds = (movies) => {
   });
 };
 
+//TODO: create the logic for the rest of the filters.
 //finds the user's tracked but not rated movies.
 function unwatchedFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
-  resolve(console.log("unwatched Filter"));
+  resolve(console.log("unwatched filter fired"));
   });
 }
 
@@ -35,25 +36,25 @@ function unwatchedFilter(usersMoviesIds) {
 function watchedFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
-  resolve(console.log("watched Filter"));
+  resolve(console.log("watched filter fired"));
   });
 }
 
-//show all favorites based on the rating property on the user's movie object.
+//only display the user's movies if their rating >= 9.
 function favoritesFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
-  resolve(console.log("favorites Filter"));
+  resolve(console.log("favorites filter fired"));
   });
 }
 
 // matches the IDs of the user's movies with the movies in the DOM. if matched, remove it.
 function untrackedFilter(userMoviesIds) {
   return new Promise ( (resolve, reject) => {
-    console.log('utr filter is working');
+    console.log('untracked filter fired');
     for (var i = 0; i < userMoviesIds.length; i++) {
       if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
-      console.log("elements", $(`#${userMoviesIds[i]}`));
+      console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
         $(`#${userMoviesIds[i]}`).closest('.col').remove();
       }
     }
@@ -81,9 +82,6 @@ movieController.filterCheck = () => {
         } else {
           console.log("error finding class");
         }
-      })
-      .then( (element) => {
-        resolve("filters have been checked", element);
       });
     });
 };
