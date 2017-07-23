@@ -13,21 +13,7 @@ let movieSearch = $('#movie');
 
 let movieController = {};
 
-// module.exports.getAPIMovieIds = () => {
-//   return new Promise( function(resolve, reject) {
-//     let moviesIds;
-//     movieFactory.getMovies()
-//     .then( (movies) => {
-//       moviesIds = movies.map(function(movie) {
-//         return movie.id;
-//       });
-//       console.log("movie Ids", moviesIds);
-//       resolve(moviesIds);
-//       });
-//   });
-// };
-
-//takes an array of movie objects
+//pass any array of movie objects, get an array of their ids back.
 movieController.getMovieIds = (movies) => {
   return new Promise (function(resolve, reject) {
     let movieIds = movies.map(function(movie) {
@@ -37,22 +23,24 @@ movieController.getMovieIds = (movies) => {
   });
 };
 
-function unwatchedFilter(user) {
+//finds the user's tracked but not rated movies.
+function unwatchedFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
   resolve(console.log("unwatched Filter"));
   });
 }
 
-// matches the IDs of the user's movies with ids in the API
-function watchedFilter() {
+// matches the IDs of the user's movies with ids in the API, if rating above 0 => watched.
+function watchedFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
   resolve(console.log("watched Filter"));
   });
 }
 
-function favoritesFilter() {
+//show all favorites based on the rating property on the user's movie object.
+function favoritesFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
 
   resolve(console.log("favorites Filter"));
@@ -73,7 +61,8 @@ function untrackedFilter(userMoviesIds) {
   });
 }
 
-
+//runs a check to see if any of the filters have been selected, and executes based on class 'flags'.
+//passes the user's movies ids into a filter function.
 movieController.filterCheck = () => {
   return new Promise (function(resolve, reject) {
     fbFactory.getUserMoviesForMatching()
@@ -98,21 +87,6 @@ movieController.filterCheck = () => {
       });
     });
 };
-  // if ($('#movie').hasClass('utr')){
-
-  //          // TODO: run specific filtered searches here.
-  // } else if ($('#movie').hasClass('uwt') === true){
-
-
-  // } else if ($('#movie').hasClass('wtc') === true){
-
-
-  // } else if ($('#movie').hasClass('fav') === true){
-
-
-  // } else {
-  //          // alert('Error: Filter not toggled on');
-  // }
 
 movieController.clearDOM = () => {
     $('#container').empty();
