@@ -9,17 +9,19 @@ let movieFactory = require('./movieFactory.js');
 let firebase = require('./firebaseConfig.js');
 
 
-//would also like to toggle a class to hide whichever of these buttons does not apply
+//even if you stay logged in, you are not yet logged in on pageload, so this listens for when a user becomes logged in
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log("User is signed in.");
-	$("#auth-btn").html("Log Out");
+	$("#in-btn").addClass("isHidden");
 	} else {
-		$("#auth-btn").html("Log In");
+		$("#out-btn").addClass("isHidden");
 
 	}
 });
 
+
+//log in and out and toggle the visibility of the login/logout buttons
 //log in to google
 $("#in-btn").click( () => {
 	console.log("log in clicked");
@@ -27,28 +29,39 @@ $("#in-btn").click( () => {
 	.then( (result) => {
 		let user = result.user.uid;
 		console.log("userID", user);
+		$("#out-btn").removeClass("isHidden");
 	});
 });
 
 //log out
-
 $("#out-btn").click( () => {
-	userFactory.logOut();
+	userFactory.logOut()
+	.then( function () {
+		$("#out-btn").addClass("isHidden");
+	$("#in-btn").removeClass("isHidden");
+	 //location.reload();
+	 });
 });
 
 // adds movie to firebase on click of 'add to watchlist' button
 $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	console.log('watch is clicked');
+	let user = firebase.auth().currentUser;
+	if (!user) {
+		alert("Please log in to continue.");
+	} else {
 	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
 	fbFactory.addMovieToFb(thisBtnId)
 	.then( function(data) {
 		console.log("added movie data", data);
 	});
 	console.log("thisID", thisBtnId);
+	}
 });
 
 // clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
 // it has and executes the filter functionality.
+//the first if statement forces user login
 $(document).on("click", '.filter', (event) => {
 	let user = firebase.auth().currentUser;
 	let $target = $(event.target);
