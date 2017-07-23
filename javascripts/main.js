@@ -50,9 +50,12 @@ $(document).on("click", '.add-to-watchlist-btn', (event) => {
 // clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
 // it has and executes the filter functionality.
 $(document).on("click", '.filter', (event) => {
+	let user = firebase.auth().currentUser;
 	let $target = $(event.target);
 	$('#movie').removeClass('utr uwt wtc fav');
-	if($target.hasClass('untracked') ) {
+	if (!user) {
+		alert("Please log in to continue.");
+	} else if($target.hasClass('untracked') ) {
 		$('#movie').toggleClass('utr');
 	} else if ($target.hasClass('unwatched')) {
 		$('#movie').toggleClass('uwt');
