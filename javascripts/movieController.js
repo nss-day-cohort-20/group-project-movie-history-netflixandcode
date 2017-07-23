@@ -35,7 +35,6 @@ function unwatchedFilter(usersMoviesIds) {
 // matches the IDs of the user's movies with ids in the API, if rating above 0 => watched.
 function watchedFilter(usersMoviesIds) {
   return new Promise ( (resolve, reject) => {
-
   resolve(console.log("watched filter fired"));
   });
 }
@@ -58,7 +57,7 @@ function untrackedFilter(userMovies) {
       for (var i = 0; i < userMoviesIds.length; i++) {
         if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
         console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
-          $(`#${userMoviesIds[i]}`).closest('.col').remove();
+          $(`#${userMoviesIds[i]}`).closest('.col').addClass('isHidden');
         }
       }
     });
@@ -70,6 +69,7 @@ function untrackedFilter(userMovies) {
 //passes the user's movies ids into a filter function.
 movieController.filterCheck = () => {
   return new Promise (function(resolve, reject) {
+    $('.isHidden').removeClass("isHidden");
     fbFactory.getUserMoviesForMatching()
       .then( (userMovies) => {
         if ($('#movie').hasClass('utr')) {
