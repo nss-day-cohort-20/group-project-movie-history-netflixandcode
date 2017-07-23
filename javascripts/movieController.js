@@ -36,14 +36,12 @@ function hideByIds(idsOfMoviesToHide) {
 //looks at the user's watched movies (rating > 0), hides them from search results.
 function unwatchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-    console.log(userMovies);
     let watchedMovies = userMovies.filter( (movie) => {
       return movie.rating > 0;
     });
     movieController.getMovieIds(watchedMovies)
     .then( (idsOfWatchedMovies) => {
-    console.log("ids of watched movies", idsOfWatchedMovies);
-    hideByIds(idsOfWatchedMovies);
+      hideByIds(idsOfWatchedMovies);
     });
   resolve(console.log("unwatched filter fired"));
   });
