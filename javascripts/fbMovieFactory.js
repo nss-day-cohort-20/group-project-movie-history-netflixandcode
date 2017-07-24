@@ -44,6 +44,32 @@ fbFactory.getUserMoviesForMatching = () => {
 	});
 };
 
+//need to add user value for rating on movie object using patch
+fbFactory.addRatingToUserMovie =(rating, movieId)=>{
+	let movieRating = {rating:`${rating}`};
+	return new Promise((resolve, reject)=>{
+		$.ajax({
+			url:`${fbUrl}/movies/${movieId}.json`,
+			type:"PATCH",
+			data:JSON.stringify(movieRating)
+		}).done((data)=>{
+			resolve (data);
+		});
+	});
+};
+
+fbFactory.deleteMovie = (movieId) =>{
+	console.log ("deleteMovie clicked");
+	return new Promise((resolve, reject)=>{
+		$.ajax({
+			url:`${fbUrl}/movies/${movieId}.json`,
+			type:"DELETE"
+		}).done((data)=>{
+			resolve(data);
+		});
+	});
+};
+
 
 
 
