@@ -13,3 +13,4 @@ module.exports.logOut = () => {
 	console.log('out');
 	return firebase.auth().signOut();
 }; 
+
