@@ -13,9 +13,9 @@ let firebase = require('./firebaseConfig.js');
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log("User is signed in.");
-	$("#in-btn").addClass("isHidden");
+	$("#in-btn").addClass("hidden");
 	} else {
-		$("#out-btn").addClass("isHidden");
+		$("#out-btn").addClass("hidden");
 
 	}
 });
@@ -29,7 +29,7 @@ $("#in-btn").click( () => {
 	.then( (result) => {
 		let user = result.user.uid;
 		console.log("userID", user);
-		$("#out-btn").removeClass("isHidden");
+		$("#out-btn").removeClass("hidden");
 	});
 });
 
@@ -37,8 +37,8 @@ $("#in-btn").click( () => {
 $("#out-btn").click( () => {
 	userFactory.logOut()
 	.then( function () {
-		$("#out-btn").addClass("isHidden");
-	$("#in-btn").removeClass("isHidden");
+		$("#out-btn").addClass("hidden");
+	$("#in-btn").removeClass("hidden");
 	 //location.reload();
 	 });
 });
@@ -57,6 +57,14 @@ $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	});
 	console.log("thisID", thisBtnId);
 	}
+});
+
+//if user clicks delete button, the movie is removed from DOM
+$(document).on("click", ".deleteCard", (event) => {
+	console.log('delete button clicked');
+	$(event.target).parent().parent().remove();
+	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
+	fbFactory.deleteMovie(thisBtnId);
 });
 
 // clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
@@ -98,3 +106,4 @@ $('#movie').keypress( (event) => {
 	
 	}
 });
+
