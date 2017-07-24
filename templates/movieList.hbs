@@ -1,13 +1,12 @@
 <div class="row">
 {{#each movies}}
-	<div class="col s3">
+	<div class="col l3 m4 s6">
 		<div class="card hoverable">
 			<div class="card-image">
 				<img src="{{poster_path}}" alt="{{title}}">
 				<span class="card-title">{{title}}</span>
 			</div>
 			<div id="{{id}}"class="card-content">
-				{{!-- <h5>{{title}}</h5> --}}
 				{{#each cast}}
 					<p>{{name}}</p>
 				{{/each}}
@@ -15,6 +14,9 @@
 			</div>
 			<div class="card-action addTracked">
 				<a class="add-to-watchlist-btn">Add to Watchlist</a>
+			</div>
+			<div class="card-action deleteCard">
+				<a class="delete-card-btn">Delete</a>
 			</div>
 		</div>
 	</div>

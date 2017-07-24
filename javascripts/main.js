@@ -59,6 +59,14 @@ $(document).on("click", '.add-to-watchlist-btn', (event) => {
 	}
 });
 
+//if user clicks delete button, the movie is removed from DOM
+$(document).on("click", ".deleteCard", (event) => {
+	console.log('delete button clicked');
+	$(event.target).parent().parent().remove();
+	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
+	fbFactory.deleteMovie(thisBtnId);
+});
+
 // clicking on a filter button adds a filter class to the search box, then calls on the filterCheck to see which class
 // it has and executes the filter functionality.
 //the first if statement forces user login
@@ -98,3 +106,4 @@ $('#movie').keypress( (event) => {
 	
 	}
 });
+
