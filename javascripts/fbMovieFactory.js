@@ -16,6 +16,7 @@ fbFactory.addMovieToFb = (movieId) => { //get movieId from the card ... remember
 			console.log("current User", currentUser);
 			movieObject.uid = currentUser;
 			movieObject.id = movieId;
+			movieObject.unique = currentUser + movieId;
 			movieObject.rating = 0; //if it's 0, not yet watched; if 1-10, user has watched... if >=9 then it's a favorite
 			$.ajax({
 				url: `${fbUrl}/movies.json`,
@@ -58,17 +59,34 @@ fbFactory.addRatingToUserMovie =(rating, movieId)=>{
 	});
 };
 
-fbFactory.deleteMovie = (movieId) =>{
-	console.log ("deleteMovie clicked");
-	return new Promise((resolve, reject)=>{
-		$.ajax({
-			url:`${fbUrl}/movies/${movieId}.json`,
-			type:"DELETE"
-		}).done((data)=>{
-			resolve(data);
+fbFactory.deleteMovie = (movieId) => {
+	return new Promise( (resolve, reject) => {
+		console.log ("deleteMovie clicked", movieId);
+		getOneMovie(movieId)
+		.then ( (oneMovie) => {
+			let deleteKey = Object.keys(oneMovie)[0];
+			console.log("firebasekey?", deleteKey);
+			$.ajax({
+				url:`${fbUrl}/movies/${deleteKey}.json`,
+				type:"DELETE"
+			}).done((data)=>{
+				resolve(data);
+			});
 		});
 	});
 };
 
+function getOneMovie(movieId) {
+	return new Promise ( (resolve, reject) => {
+		let currentUser = firebase.auth().currentUser.uid;
+		let uniqueId = currentUser + movieId;
+		$.ajax({
+			url: `${fbUrl}/movies.json?orderBy="unique"&equalTo="${uniqueId}"`
+		}).done( (data) => {
+			console.log("data", data);
+			resolve(data);
+		});
+	});
+}
 
 module.exports = fbFactory;

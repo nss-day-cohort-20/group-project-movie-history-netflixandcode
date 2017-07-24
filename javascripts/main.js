@@ -64,6 +64,7 @@ $(document).on("click", ".deleteCard", (event) => {
 	console.log('delete button clicked');
 	$(event.target).parent().parent().remove();
 	let thisBtnId = $(event.target).parent().siblings('.card-content').attr('id');
+	console.log("what to delete?", thisBtnId);
 	fbFactory.deleteMovie(thisBtnId);
 });
 
