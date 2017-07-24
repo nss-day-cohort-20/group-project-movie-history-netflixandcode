@@ -31,26 +31,60 @@ function hideByIds(idsOfMoviesToHide) {
     }
   }
 }
+// get the ids of card content
+function findIdsInDOM() {
+  return new Promise ( (resolve, rejecct) => {
+      console.log($('.card-content'));
+      let ids = $(".card-content").map(function() {
+        return this.id;
+        })
+        .get();
+    console.log("ids in DOM", ids);
+    resolve(ids);
+  });
+}
+
+function compareIdsToDOM(moviesToCompare) {
+  let idsToRemove;
+  findIdsInDOM()
+    .then( (idsInDOM) => { //get all the ids of the movie cards currently in the DOM
+      movieController.getMovieIds(moviesToCompare) //get the movie ids of the user's movies that fit the filter
+      .then( (moviesToCompare) => {
+        idsToRemove = idsInDOM.filter( (id) => { //compare the two arrays of IDs
+          if (moviesToCompare.indexOf(id) === -1) { //filter out the user movies that should be left in the DOM
+            return id;
+          }
+        });
+        return idsToRemove;
+      })
+      .then( (removeTheseIds) => {
+        hideByIds(removeTheseIds); //hides the ids of the movies that dont fit the filter;
+      });
+    });
+}
 
 //TODO: create the logic for the rest of the filters.
+
 //looks at the user's watched movies (rating > 0), hides them from search results.
 function unwatchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-    let watchedMovies = userMovies.filter( (movie) => {
-      return movie.rating > 0;
+    let unwatchedMovies = userMovies.filter( (movie) => {
+      return movie.rating === 0;
     });
-    movieController.getMovieIds(watchedMovies)
-    .then( (idsOfWatchedMovies) => {
-      hideByIds(idsOfWatchedMovies);
-    });
-  resolve(console.log("unwatched filter fired"));
+    compareIdsToDOM(unwatchedMovies);
+    resolve(console.log("unwatched filter fired"));
   });
 }
 
 // matches the IDs of the user's movies with ids in the API, if rating above 0 => watched.
 function watchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-//if the 
+
+    let watchedMovies = userMovies.filter( (movie) => {
+      return movie.rating >= 1;
+    });
+    compareIdsToDOM(watchedMovies);
+
   resolve(console.log("watched filter fired"));
   });
 }
@@ -58,8 +92,11 @@ function watchedFilter(userMovies) {
 //only display the user's movies if their rating >= 9.
 function favoritesFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-
-  resolve(console.log("favorites filter fired"));
+    let favoriteMovies = userMovies.filter( (movie) => {
+      return movie.rating >= 9;
+    });
+    compareIdsToDOM(favoriteMovies);
+    resolve(console.log("favorites filter fired"));
   });
 }
 
@@ -71,12 +108,6 @@ function untrackedFilter(userMovies) {
     .then( (userMoviesIds) => {
       console.log("user movies ids", userMoviesIds);
       hideByIds(userMoviesIds);
-      // for (var i = 0; i < userMoviesIds.length; i++) {
-      //   if ($(`#${userMoviesIds[i]}`).hasClass('card-content')) {
-      //   console.log("Untracked filter: Element removed", $(`#${userMoviesIds[i]}`));
-      //     $(`#${userMoviesIds[i]}`).closest('.col').addClass('isHidden');
-      //   }
-      // }
     });
     resolve();
   });
