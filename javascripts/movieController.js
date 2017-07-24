@@ -31,19 +31,45 @@ function hideByIds(idsOfMoviesToHide) {
     }
   }
 }
+// get the ids of card content
+function findIdsInDOM() {
+  return new Promise ( (resolve, rejecct) => {
+      console.log($('.card-content'));
+      let ids = $(".card-content").map(function() {
+        return this.id;
+        })
+        .get();
+    console.log("ids in DOM", ids);
+    resolve(ids);
+  });
+}
+
+
 
 //TODO: create the logic for the rest of the filters.
 //looks at the user's watched movies (rating > 0), hides them from search results.
 function unwatchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-    let watchedMovies = userMovies.filter( (movie) => {
-      return movie.rating > 0;
+    let idsToRemove;
+    let unwatchedMovies = userMovies.filter( (movie) => {
+      return movie.rating === 0;
     });
-    movieController.getMovieIds(watchedMovies)
-    .then( (idsOfWatchedMovies) => {
-      hideByIds(idsOfWatchedMovies);
+    findIdsInDOM()
+    .then( (idsInDOM) => {
+      movieController.getMovieIds(unwatchedMovies)
+      .then( (unwatchedMovieIds) => {
+        idsToRemove = idsInDOM.filter( (id) => {
+          if (unwatchedMovieIds.indexOf(id) === -1) {
+            return id;
+          }
+        });
+        return idsToRemove;
+      })
+      .then( (removeTheseIds) => {
+        hideByIds(removeTheseIds);
+      });
     });
-  resolve(console.log("unwatched filter fired"));
+    resolve(console.log("unwatched filter fired"));
   });
 }
 
