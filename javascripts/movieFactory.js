@@ -7,9 +7,8 @@ let showcase = require('./showcaseMovies');
 let apiCred = api.apiGet();
 let castApi = api.apiCredits();
 
-//this gets all the data. 
+//this gets all the data.
 module.exports.getMovies = () => {
-    let movieArray = [];
     return new Promise( (resolve, reject) => {
         let input = $('#movie').val();
         apiCred.movieName = encodeURI(input);
@@ -19,12 +18,12 @@ module.exports.getMovies = () => {
             type: 'GET',
             url: searchURL,
             contentType: 'application/json'
-         
+
     }).done( (data) => {
-        console.log("data", data);
         let temp = data.results;
         //limit's the amount of data returned to 12 movies
-        let movieData = temp.slice(0,12);
+        let movieArray = [];
+        let movieData = temp.slice(0,20);
         for (let i = 0; i < movieData.length; i++) {
             movieArray.push(data.results[i]);
         }
@@ -35,11 +34,14 @@ module.exports.getMovies = () => {
         .then( (actors) => {
             // console.log("actors", actors);
             showcase.movieObjBuilder(movieArray, actors);
+            resolve(movieData);
             });
-        resolve(data);
+        console.log("data", movieData);
         });
     });
 };
+
+
 
 //builds the promisesArr, which will contain getActors with the correct castUrl in each one.
 function castPromiseMaker(movieArray) {
