@@ -50,7 +50,7 @@ function unwatchedFilter(userMovies) {
 // matches the IDs of the user's movies with ids in the API, if rating above 0 => watched.
 function watchedFilter(userMovies) {
   return new Promise ( (resolve, reject) => {
-
+//if the 
   resolve(console.log("watched filter fired"));
   });
 }
