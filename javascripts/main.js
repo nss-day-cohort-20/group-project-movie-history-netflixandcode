@@ -13,9 +13,9 @@ let firebase = require('./firebaseConfig.js');
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log("User is signed in.");
-	$("#in-btn").addClass("isHidden");
+	$("#in-btn").addClass("hidden");
 	} else {
-		$("#out-btn").addClass("isHidden");
+		$("#out-btn").addClass("hidden");
 
 	}
 });
@@ -29,7 +29,7 @@ $("#in-btn").click( () => {
 	.then( (result) => {
 		let user = result.user.uid;
 		console.log("userID", user);
-		$("#out-btn").removeClass("isHidden");
+		$("#out-btn").removeClass("hidden");
 	});
 });
 
@@ -37,8 +37,8 @@ $("#in-btn").click( () => {
 $("#out-btn").click( () => {
 	userFactory.logOut()
 	.then( function () {
-		$("#out-btn").addClass("isHidden");
-	$("#in-btn").removeClass("isHidden");
+		$("#out-btn").addClass("hidden");
+	$("#in-btn").removeClass("hidden");
 	 //location.reload();
 	 });
 });
